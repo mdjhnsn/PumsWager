@@ -73,5 +73,4 @@ venv.bak/
 # mkdocs documentation
 /site
 
-jovyan/.ipython/
-jovyan/.local/
+notebooks/
