@@ -14,6 +14,11 @@ from data.labels.geo import dict_state, dict_region
 from data.labels.ind import dict_sector, dict_industry
 from data.labels.occ import dict_occupation, dict_field
 
+import urllib.request
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 def create_dataset():
     # Start timer
@@ -77,7 +82,7 @@ def create_dataset():
 
     # Merge PUMA labels dataframe
     df_pumas = pd.read_csv(
-        pathlib.Path(__file__).parent.joinpath("etc/PUMA_2010_Labels.csv")
+        pathlib.Path(__file__).parent.joinpath("labels/PUMA_2010_Labels.csv")
     )
     df = df.merge(
         df_pumas, left_on=["ST", "PUMA"], right_on=["STATEFP", "PUMA5CE"], how="left"
@@ -120,27 +125,27 @@ def create_dataset():
     logging.info("Creating auxilliary datasets...")
     locs = (
         df[["STATE", "LOCATION", "ST", "PUMA"]]
-        .drop_duplicates()
-        .sort_values(["ST", "PUMA"])
-        .reset_index(drop=True)
+            .drop_duplicates()
+            .sort_values(["ST", "PUMA"])
+            .reset_index(drop=True)
     )
     inds = (
         df[["INDP", "SECTOR", "INDUSTRY"]]
-        .drop_duplicates()
-        .sort_values(["INDP"])
-        .reset_index(drop=True)
+            .drop_duplicates()
+            .sort_values(["INDP"])
+            .reset_index(drop=True)
     )
     occs = (
         df[["OCCP", "FIELD", "OCCUPATION"]]
-        .drop_duplicates()
-        .sort_values(["OCCP"])
-        .reset_index(drop=True)
+            .drop_duplicates()
+            .sort_values(["OCCP"])
+            .reset_index(drop=True)
     )
     educ = (
         df[["SCHL", "SCHOOLING"]]
-        .drop_duplicates()
-        .sort_values(["SCHL"])
-        .reset_index(drop=True)
+            .drop_duplicates()
+            .sort_values(["SCHL"])
+            .reset_index(drop=True)
     )
 
     # Save data

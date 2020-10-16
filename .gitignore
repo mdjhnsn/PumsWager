@@ -1,7 +1,6 @@
 .idea/
 data/csv/
 data/db/
-data/logs/
 venv*/
 
 # OS Specific
