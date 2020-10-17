@@ -72,3 +72,26 @@ venv.bak/
 /site
 
 notebooks/
+data/db/collection-4-5679219642093873579.wt
+data/db/index-6-5679219642093873579.wt
+data/db/WiredTiger.turtle
+data/db/WiredTigerHS.wt
+data/db/index-5-5679219642093873579.wt
+data/db/WiredTiger
+data/db/collection-2-5679219642093873579.wt
+data/db/collection-0-5679219642093873579.wt
+data/db/index-1-5679219642093873579.wt
+data/db/mongod.lock
+data/db/WiredTiger.lock
+data/db/index-3-5679219642093873579.wt
+data/db/_mdb_catalog.wt
+data/db/sizeStorer.wt
+data/db/WiredTiger.wt
+data/db/storage.bson
+data/db/diagnostic.data/
+data/db/journal/
+data/csv/pums18_loc.csv
+data/csv/pums18_lab.csv
+data/csv/pums18_edu.csv
+data/csv/pums18_occ.csv
+data/csv/pums18_ind.csv

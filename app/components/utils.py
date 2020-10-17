@@ -30,11 +30,11 @@ def get_schooling():
 
 
 def get_columns():
-    colnames = [
+    columns = [
         "SALARY",
         "HOURS",
         "AGE",
         "FIELD",
         "SECTOR",
     ]
-    return get_options(colnames)
+    return get_options(columns)
