@@ -48,7 +48,7 @@ def create_dataset():
     base = "https://api.census.gov"
     dataset = "data/2018/acs/acs1/pums"
     unfiltered = "SCHL,OCCP,INDP,REGION,ST,PUMA,PWGTP,ADJINC"
-    filtered = "COW=1:8&AGEP=20:80&WKHP=5:99&WAGP=400:400000"
+    filtered = "COW=1:8&AGEP=20:80&WKHP=5:99&WAGP=4000:400000"
     url = f"{base}/{dataset}?get={unfiltered}&{filtered}"
     logging.info(f"Pulling data from {url}")
 
@@ -63,7 +63,6 @@ def create_dataset():
     # Get column names then drop first row
     df0.columns = df0.iloc[0, :]
     df0 = df0.drop(index=0)
-    shape0 = df0.shape
 
     # Cast all columns as numeric
     for c in df0.columns:
