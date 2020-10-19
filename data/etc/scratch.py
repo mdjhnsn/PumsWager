@@ -1,6 +1,9 @@
 state = "AK"
 puma = "Subsistence Alaska"
+data = db.lab.find({"LOCATION": puma})
+df = pd.DataFrame(data).drop(columns="_id")
 data = df.to_dict("records")
+
 group_col = "SCHOOLING"
 plot_val = "SALARY"
 fig, ax = plt.subplots()
@@ -90,17 +93,7 @@ features = [
     "HOURS",
 ]
 target = "SALARY"
-X = pd.get_dummies(dfs[features], drop_first=True)
-y = dfs[target]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
-xgr = xgb.XGBRegressor()
-xgr.fit(
-    X_train,
-    y_train,
-    eval_set=[(X_test, y_test)],
-)
-explainer = shap.explainers.Tree(xgr)
-shap_values = explainer(X)
+
 shap.plots.beeswarm(shap_values)
 
 X_i = ...
