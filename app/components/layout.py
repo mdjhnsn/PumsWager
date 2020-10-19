@@ -166,7 +166,7 @@ model_inputs = dbc.Card(
             ),
             dbc.Row(
                 [
-                    dbc.Col(dbc.Spinner(html.Div(id="model-output"))),
+                    dbc.Col(dbc.Spinner(html.Div(id="model-alert"))),
                     dbc.Col(
                         [
                             dbc.Button(
@@ -178,11 +178,12 @@ model_inputs = dbc.Card(
                 ],
                 className="mt-4",
             ),
-            dbc.Spinner(dbc.Col(dcc.Graph(id="coef-graph"))),
+            dbc.Spinner(dbc.Col(dcc.Graph(id="model-graph"))),
         ],
     ),
 )
-graph_col = dbc.Card(
+
+salary_graph = dbc.Card(
     [
         state_puma_selector,
         dbc.CardBody(
@@ -199,7 +200,7 @@ page_content = dbc.Container(
     children=[
         dbc.Row(
             [
-                dbc.Col([graph_col]),
+                dbc.Col([salary_graph]),
                 dbc.Col([model_inputs]),
             ]
         )
