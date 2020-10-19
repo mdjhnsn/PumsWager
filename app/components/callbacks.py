@@ -4,6 +4,7 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import plotly.tools as tls
+import matplotlib.pyplot as plt
 import shap
 import xgboost as xgb
 from dash.dependencies import Input, Output, State
@@ -61,14 +62,15 @@ def register_callbacks(app):
 
     @app.callback(
         [
-            Output("model-output", "children"),
-            Output("coef-graph", "figure"),
+            Output("model-alert", "children"),
+            Output("model-graph", "figure"),
         ],
         [Input("store", "data"), State("go-button", "n_clicks")],
     )
     def query_and_train(data, n_clicks):
-
+        print(n_clicks)
         t0 = time.time()
+        df = pd.DataFrame(data)
 
         # Data setup
         features = [
@@ -77,11 +79,10 @@ def register_callbacks(app):
             "AGE",
             "HOURS",
             "SCHL",
+            "COW",
         ]
         target = "SALARY"
         weight = "WGHT"
-
-        df = pd.DataFrame(data)
         sum_weights = df[weight].sum()
         sample_size = min(sum_weights, 500000)
         dfs = df.sample(sample_size, weights=df[weight], replace=True)
@@ -96,18 +97,19 @@ def register_callbacks(app):
             y_train,
             eval_set=[(X_test, y_test)],
         )
-
         explainer = shap.explainers.Tree(model)
-        df_shap = pd.DataFrame(explainer(X_test).values, columns=[col + "_CONTRIBUTION" for col in X.columns])
-        df_X = pd.DataFrame(X_test, columns=X.columns)
-        df_shap['PREDICTED_SALARY'] = model.predict(X_test)
-        df_X['SALARY'] = y_test.values
-        df_fig = pd.concat([df_X, df_shap,], axis=1)
+
+        X_shap = pd.DataFrame(explainer(X_test).values, columns=[col + "_CONTRIBUTION" for col in X.columns])
+        X_shap['SALARY_BASE'] = explainer.expected_value
+        X_shap['SALARY_PREDICTION'] = model.predict(X_test)
+        df_test = dfs.iloc[X_test.index].reset_index(drop=True)
+        df_out = pd.concat([df_test, X_shap], axis=1)
+        df_out['RESIDUAL'] = df_out['SALARY_PREDICTION'] - df_out['SALARY']
 
         fig = px.scatter(
-            df_fig.to_dict('records'),
-            x="SALARY",
-            y="PREDICTED_SALARY",
+            df_out.to_dict('records'),
+            x="SALARY_PREDICTION",
+            y="RESIDUAL",
             template="simple_white",
         )
 
