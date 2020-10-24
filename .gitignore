@@ -71,7 +71,6 @@ venv.bak/
 # mkdocs documentation
 /site
 
-notebooks/
 data/db/collection-4-5679219642093873579.wt
 data/db/index-6-5679219642093873579.wt
 data/db/WiredTiger.turtle
